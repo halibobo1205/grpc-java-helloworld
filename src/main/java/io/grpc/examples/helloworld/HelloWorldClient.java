@@ -16,10 +16,9 @@
 
 package io.grpc.examples.helloworld;
 
-import io.grpc.Channel;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.StatusRuntimeException;
+import io.grpc.*;
+import io.grpc.stub.MetadataUtils;
+
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +46,13 @@ public class HelloWorldClient {
     HelloRequest request = HelloRequest.newBuilder().setName(name).build();
     HelloReply response;
     try {
-      response = blockingStub.sayHello(request);
+      Metadata.Key<String> CONTENT_LENGTH_KEY =
+              Metadata.Key.of("content-length", Metadata.ASCII_STRING_MARSHALLER);
+      Metadata contentLength = new Metadata();
+      contentLength.put(CONTENT_LENGTH_KEY, request.getSerializedSize() + "");;
+      response = blockingStub
+              .withInterceptors(MetadataUtils.newAttachHeadersInterceptor(contentLength))
+              .sayHello(request);
     } catch (StatusRuntimeException e) {
       logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
       return;

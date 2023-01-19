@@ -2,12 +2,13 @@
 buildscript {
     repositories {
         mavenCentral()
-        jcenter()
-        maven { url 'https://jitpack.io' }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.12'
-        classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.9.1'
+        classpath "gradle.plugin.com.github.johnrengelman:shadow:7.1.2"
     }
 }
 
@@ -39,26 +40,27 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 // Feel free to delete the comment at the next line. It is just for safely
 // updating the version in our release process.
-def grpcVersion = '1.39.0' // CURRENT_GRPC_VERSION
-def protobufVersion = '3.19.2'
+def grpcVersion = '1.52.1' // CURRENT_GRPC_VERSION
+def protobufVersion = '3.21.12'
 def protocVersion = protobufVersion
 
 dependencies {
-    compile "com.google.protobuf:protobuf-java:${protobufVersion}"
+    implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
     // examples/advanced need this for JsonFormat
-    compile "com.google.protobuf:protobuf-java-util:${protobufVersion}"
+    implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"
 
-    compile group: 'net.jcip', name: 'jcip-annotations', version: '1.0'
+    implementation group: 'net.jcip', name: 'jcip-annotations', version: '1.0'
 
-    compile "io.grpc:grpc-netty:${grpcVersion}"
-    compile "io.grpc:grpc-protobuf:${grpcVersion}"
-    compile "io.grpc:grpc-stub:${grpcVersion}"
+    implementation "io.grpc:grpc-netty:${grpcVersion}"
+    implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+    implementation "io.grpc:grpc-stub:${grpcVersion}"
 
-    compile group: 'com.google.api.grpc', name: 'googleapis-common-protos', version: '0.0.3'
+
+    implementation group: 'com.google.api.grpc', name: 'googleapis-common-protos', version: '0.0.3'
 
     testImplementation "io.grpc:grpc-testing:${grpcVersion}"
-    testImplementation "junit:junit:4.12"
-    testImplementation "org.mockito:mockito-core:3.4.0"
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:4.11.0'
 }
 
 
