@@ -100,7 +100,7 @@ task helloWorldServer(type: CreateStartScripts) {
     classpath = startScripts.classpath
     outputDir = new File(project.buildDir, 'tmp/scripts/' + name)
 
-    defaultJvmOpts = ['-XX:+UseG1GC', '-XX:+PrintGCDetails', '-Xloggc:./gc.log', '-XX:+PrintGCDateStamps']
+    defaultJvmOpts = ['-XX:+UseG1GC']
 }
 
 task helloWorldClient(type: CreateStartScripts) {
@@ -108,7 +108,7 @@ task helloWorldClient(type: CreateStartScripts) {
     applicationName = 'client'
     classpath = startScripts.classpath
     outputDir = new File(project.buildDir, 'tmp/scripts/' + name)
-    defaultJvmOpts = ['-XX:+UseG1GC', '-XX:+PrintGCDetails', '-Xloggc:./gc.log', '-XX:+PrintGCDateStamps']
+    defaultJvmOpts = ['-XX:+UseG1GC']
 }
 
 configurations.all {
