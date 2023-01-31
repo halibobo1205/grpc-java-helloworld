@@ -19,15 +19,16 @@ package io.grpc.examples.helloworld;
 import io.grpc.Server;
 import io.grpc.netty.NettyServerBuilder;
 import io.grpc.stub.StreamObserver;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 /**
  * Server that manages startup/shutdown of a {@code Greeter} server.
  */
+@Slf4j(topic = "server")
 public class HelloWorldServer {
-  private static final Logger logger = Logger.getLogger(HelloWorldServer.class.getName());
 
   private Server server;
 
@@ -79,6 +80,7 @@ public class HelloWorldServer {
 
     @Override
     public void sayHello(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
+
       HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + req.getName()).build();
       responseObserver.onNext(reply);
       responseObserver.onCompleted();

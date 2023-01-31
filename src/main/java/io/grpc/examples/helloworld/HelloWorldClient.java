@@ -18,16 +18,15 @@ package io.grpc.examples.helloworld;
 
 import io.grpc.*;
 import io.grpc.stub.MetadataUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A simple client that requests a greeting from the {@link HelloWorldServer}.
  */
+@Slf4j(topic = "client")
 public class HelloWorldClient {
-  private static final Logger logger = Logger.getLogger(HelloWorldClient.class.getName());
 
   private final GreeterGrpc.GreeterBlockingStub blockingStub;
 
@@ -54,7 +53,7 @@ public class HelloWorldClient {
               .withInterceptors(MetadataUtils.newAttachHeadersInterceptor(contentLength))
               .sayHello(request);
     } catch (StatusRuntimeException e) {
-      logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
+      logger.error("RPC failed: {}", e.getStatus());
       return;
     }
     logger.info("Greeting: " + response.getMessage());

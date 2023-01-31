@@ -57,6 +57,13 @@ dependencies {
 
 
     implementation group: 'com.google.api.grpc', name: 'googleapis-common-protos', version: '0.0.3'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.11'
+
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
 
     testImplementation "io.grpc:grpc-testing:${grpcVersion}"
     testImplementation 'junit:junit:4.13.2'
@@ -88,16 +95,20 @@ startScripts.enabled = false
 
 
 task helloWorldServer(type: CreateStartScripts) {
-    mainClassName = 'io.grpc.examples.helloworld.HelloWorldServer'
-    applicationName = 'hello-world-server'
-    outputDir = new File(project.buildDir, 'tmp/scripts/' + name)
+    mainClass = 'io.grpc.examples.helloworld.HelloWorldServer'
+    applicationName = 'server'
     classpath = startScripts.classpath
+    outputDir = new File(project.buildDir, 'tmp/scripts/' + name)
+
+    defaultJvmOpts = ['-XX:+UseG1GC', '-XX:+PrintGCDetails', '-Xloggc:./gc.log', '-XX:+PrintGCDateStamps']
 }
 
 task helloWorldClient(type: CreateStartScripts) {
-    mainClassName=    applicationName = 'hello-world-client'
-    outputDir = new File(project.buildDir, 'tmp/scripts/' + name)
+    mainClass =  'io.grpc.examples.helloworld.HelloWorldClient'
+    applicationName = 'client'
     classpath = startScripts.classpath
+    outputDir = new File(project.buildDir, 'tmp/scripts/' + name)
+    defaultJvmOpts = ['-XX:+UseG1GC', '-XX:+PrintGCDetails', '-Xloggc:./gc.log', '-XX:+PrintGCDateStamps']
 }
 
 configurations.all {
