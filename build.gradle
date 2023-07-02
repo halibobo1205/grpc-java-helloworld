@@ -1,24 +1,11 @@
 
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.9.1'
-        classpath "gradle.plugin.com.github.johnrengelman:shadow:7.1.2"
-    }
-}
-
 plugins {
     // Provide convenience executables for trying out the examples.
     id 'application'
     id 'java'
     id 'jacoco'
     // ASSUMES GRADLE 5.6 OR HIGHER. Use plugin version 0.8.10 with earlier gradle versions
-    id 'com.google.protobuf' version '0.8.12'
+    id 'com.google.protobuf' version '0.9.3'
     // Generate IntelliJ IDEA's .idea & .iml project files
     id 'idea'
 }
@@ -40,34 +27,32 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 // Feel free to delete the comment at the next line. It is just for safely
 // updating the version in our release process.
-def grpcVersion = '1.52.1' // CURRENT_GRPC_VERSION
-def protobufVersion = '3.21.12'
+def grpcVersion = '1.53.0' // CURRENT_GRPC_VERSION
+def protobufVersion = '3.22.2'
 def protocVersion = protobufVersion
+def lombokVersion = '1.18.24'
+def logbackVersion = '1.2.11'
+def junitVersion = '4.13.2'
+
 
 dependencies {
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
-    // examples/advanced need this for JsonFormat
     implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"
-
-    implementation group: 'net.jcip', name: 'jcip-annotations', version: '1.0'
 
     implementation "io.grpc:grpc-netty:${grpcVersion}"
     implementation "io.grpc:grpc-protobuf:${grpcVersion}"
     implementation "io.grpc:grpc-stub:${grpcVersion}"
 
+    implementation group: 'com.google.api.grpc', name: 'proto-google-common-protos', version: '2.21.0'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: "${logbackVersion}"
+    implementation group: 'net.jcip', name: 'jcip-annotations', version: '1.0'
 
-    implementation group: 'com.google.api.grpc', name: 'googleapis-common-protos', version: '0.0.3'
-    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.11'
-
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
-    testCompileOnly 'org.projectlombok:lombok:1.18.24'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
-
-
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     testImplementation "io.grpc:grpc-testing:${grpcVersion}"
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:4.11.0'
+    testImplementation "junit:junit:${junitVersion}"
 }
 
 

@@ -19,6 +19,8 @@ package io.grpc.examples.helloworld;
 import io.grpc.Server;
 import io.grpc.netty.NettyServerBuilder;
 import io.grpc.stub.StreamObserver;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -35,8 +37,13 @@ public class HelloWorldServer {
   private void start() throws IOException {
     /* The port on which the server should run */
     int port = 50051;
+    EventLoopGroup boss = new NioEventLoopGroup(1);
+    EventLoopGroup worker = new NioEventLoopGroup(1);
     server = NettyServerBuilder.forPort(port)
         .addService(new GreeterImpl())
+        .workerEventLoopGroup(worker)
+        .bossEventLoopGroup(boss)
+        .channelType(io.netty.channel.socket.nio.NioServerSocketChannel.class)
         .build()
         .start();
     logger.info("Server started, listening on " + port);
