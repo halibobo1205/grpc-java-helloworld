@@ -18,6 +18,7 @@ package io.grpc.examples.helloworld;
 
 import io.grpc.Server;
 import io.grpc.netty.NettyServerBuilder;
+import io.grpc.protobuf.services.ProtoReflectionService;
 import io.grpc.stub.StreamObserver;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -41,6 +42,7 @@ public class HelloWorldServer {
     EventLoopGroup worker = new NioEventLoopGroup(1);
     server = NettyServerBuilder.forPort(port)
         .addService(new GreeterImpl())
+        .addService(ProtoReflectionService.newInstance())
         .workerEventLoopGroup(worker)
         .bossEventLoopGroup(boss)
         .channelType(io.netty.channel.socket.nio.NioServerSocketChannel.class)
