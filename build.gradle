@@ -34,6 +34,8 @@ def lombokVersion = '1.18.24'
 def logbackVersion = '1.2.11'
 def junitVersion = '4.13.2'
 
+def jettyVersion = '9.4.51.v20230217'
+
 
 dependencies {
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
@@ -43,6 +45,14 @@ dependencies {
     implementation "io.grpc:grpc-protobuf:${grpcVersion}"
     implementation "io.grpc:grpc-stub:${grpcVersion}"
     implementation "io.grpc:grpc-services:${grpcVersion}"
+
+    implementation "org.eclipse.jetty:jetty-server:${jettyVersion}"
+    implementation "org.eclipse.jetty:jetty-servlet:${jettyVersion}"
+    implementation "org.eclipse.jetty:jetty-servlets:${jettyVersion}"
+    implementation "org.eclipse.jetty:jetty-annotations:${jettyVersion}"
+
+    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+
 
     implementation group: 'com.google.api.grpc', name: 'proto-google-common-protos', version: '2.21.0'
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: "${logbackVersion}"

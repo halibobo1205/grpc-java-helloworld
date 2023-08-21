@@ -23,6 +23,7 @@ import io.grpc.stub.StreamObserver;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.jetty.examples.helloworld.HelloWorldService;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -89,8 +90,7 @@ public class HelloWorldServer {
 
     @Override
     public void sayHello(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
-
-      HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + req.getName()).build();
+      HelloReply reply = HelloWorldService.sayHello(req);
       responseObserver.onNext(reply);
       responseObserver.onCompleted();
     }
