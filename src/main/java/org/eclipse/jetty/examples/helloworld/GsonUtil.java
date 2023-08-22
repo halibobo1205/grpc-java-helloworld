@@ -21,7 +21,7 @@ public class GsonUtil {
         return getGson(message.getClass()).toJson(message);
     }
 
-    public static <T extends Message> Message toMessage(Class<T> klass, String json) {
+    public static <T extends Message> T toMessage(Class<T> klass, String json) {
         return getGson(klass).fromJson(json, klass);
     }
 
@@ -52,9 +52,7 @@ public class GsonUtil {
             try {
                 Method method = messageClass.getMethod("newBuilder");
                 E.Builder builder = (E.Builder) method.invoke(null);
-
-                JsonParser jsonParser = new JsonParser();
-                JsonFormat.parser().merge(jsonParser.parse(jsonReader).toString(), builder);
+                JsonFormat.parser().merge(JsonParser.parseReader(jsonReader).toString(), builder);
                 return (E) builder.build();
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 throw new IOException(e);
